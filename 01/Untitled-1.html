@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>攻略施婷遊戲</title>
+  <style>
+    body {
+        background-image: url('image/SCHOOL.png'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .container {
+        width: 80%;
+        margin: 100px auto;
+        text-align: center;
+    }
+    h1 {
+        color: #ff0bf3;
+        font-size: 75px;
+        font-weight: bold;
+        text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 2px 0 #ffffff, 0 -2px #ebebeb;
+    }
+    p {
+        color: #ffffff;
+        font-size: 50px;
+        font-weight: bold;
+        text-shadow: -2px 0 #000000, 0 2px #000000, 2px 0 #000000, 0 -2px #000000;
+    }
+    .option {
+        width: 700px;
+        height: 35px;
+        background-color: #fff317d9;
+        border: 8px solid #c83cff;
+        padding: 20px;
+        cursor: pointer;
+        border-radius: 15px;
+        transition: transform 0.1s ease;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin: 50px auto;
+    }
+    .option:hover {
+        background-color: #ff00a2;
+        transform: scale(1.1);
+    }
+    /* 樣式化播放和暫停按鈕 */
+    .playPauseBtn {
+        background-color: #4CAF50; /* 綠色 */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    /* 音量控制滑塊 */
+    .volumeSlider {
+        width: 100px;
+    }
+    /* 音量控制滑塊的容器樣式 */
+    .volumeControl {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 10px; /* 或者根據需要調整間距 */
+    }
+    span {
+        display: inline-block;
+        background-image: url('image/heart3.png'); /* 替換成你的圖片URL */
+        background-repeat: no-repeat; /* 防止背景圖片重複顯示 */
+        width: 150px; /* 根據你的圖片大小調整 */
+        height: 120px; /* 根據你的圖片大小調整 */
+        line-height: 120px; /* 與高度相同，使文字垂直居中 */
+        text-align: center; /* 使文字水平居中 */
+        background-size: 100%; /* 確保圖片完整顯示 */
+        background-repeat: no-repeat; /* 防止背景圖片重複顯示 */
+        background-position: center; /* 將背景圖片置於中央 */
+    }
+    #bg1{
+        background-image: url('image/同桌施.jpg');
+    }
+
+        
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span>請</span><span>攻</span><span>略</span><span>施</span><span>婷</span></h1>
+    <div id="game"></div>
+  </div>
+<div class="volumeControl">
+    <audio id="audio" autoplay loop>
+      <source src="LOVE.mp3" type="audio/mpeg">
+    </audio>
+    <button onclick="playPause()" class="playPauseBtn">播放/暫停</button>
+    <input type="range" id="volume" class="volumeSlider" min="0" max="1" step="0.1" oninput="setVolume()">
+    <label for="volume">背景音量</label>
+  </div>
+  </body>
+</div>
+  <script>
+   // 播放和暫停功能
+function playPause() {
+  var myAudio = document.getElementById("audio");
+  if (myAudio.paused) {
+    myAudio.play();
+  } else {
+    myAudio.pause();
+  }
+}
+// 設置音量
+function setVolume() {
+  var myAudio = document.getElementById("audio");
+  var volumeControl = document.getElementById("volume");
+  myAudio.volume = volumeControl.value;
+}
+// 設置bo.mp3的音量
+function setBoVolume() {
+  var boAudio = document.getElementById("boAudio"); // 確保您有一個id為"boAudio"的audio元素
+  var boVolumeControl = document.getElementById("boVolume");
+  boAudio.volume = boVolumeControl.value;
+}
+// 初始化bo.mp3的音效
+var boAudio = new Audio('bo.mp3');
+boAudio.id = "boAudio";
+document.body.appendChild(boAudio);
+
+     // 遊戲數據
+     const gameData = [
+        {
+            id: 1,
+            text: '你是否準備好攻略施婷了？',
+            options: [
+                { text: '開始', nextId: 9999 }
+            ]
+        },
+        {
+            id: 9999,
+            text: '今天是你轉到教業中學的第一天，你的同桌施婷向你自我介紹，你會如何反應？',
+            options: [
+                { text: '向她自我介紹', nextId: 2 },
+                { text: '不予理會', nextId: 9102 },
+                { text: '強吻他', nextId: 9103 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 2,
+            text: '她說很高興認識你，並且向你發出了吃飯邀請',
+            options: [
+                { text: '接受', nextId: 3 },
+                { text: '拒絕', nextId: 9102 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 3,
+            text: '她問你想吃什麼？',
+            options: [
+                { text: '日本餐', nextId: 9104 },
+                { text: '泰國餐', nextId: 4 },
+                { text: '韓國餐', nextId: 9104 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 4,
+            text: '她很高興，你知道她喜歡吃什麼，就激動得蹦蹦跳跳，然後地板就被施婷蹦穿了，你要怎麼做？',
+            options: [
+                { text: '腿沒有事吧', nextId: 9102  },
+                { text: '哈哈,胖嘟嘟的很可爰呢', nextId: 9101  },
+                { text: '假裝看不見,帶著她走', nextId: 5 },
+                { text: '沒關係,地板穿了還可以再買多一片', nextId: 9101  },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 5,
+            text: '到泰國餐廳了，門前有一攤水，應該要怎麼做？',
+            options: [
+                { text: '透過水面反光看她內褲去瞭解她', nextId: 9103 },
+                { text: '等我拿紙巾擦一下!', nextId: 9101 },
+                { text: '把外套脫下放在水面上,讓她踩過去', nextId: 6 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 6,
+            text: '上到去坐了，施婷突然想去上廁所，叫你幫她點餐，你要幫施婷點什麼餐？',
+            options: [
+                { text: '豬頸肉飯', nextId: 9101 },
+                { text: '牛郎', nextId: 9101 },
+                { text: '咖哩牛腩飯', nextId: 7 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 7,
+            text: '食完飯好好味～之後你要怎麼做？',
+            options: [
+                { text: '我要趕回學校做事,你Mpay是6857 0399？我轉錢給你', nextId: 8 },
+                { text: '我請你吃吧', nextId: 9104  },
+                { text: '各自付錢吧', nextId: 9101  },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 8,
+            text: '利用Mpay轉錢的方法,得到對方的聯系,回到家後要怎麼做？',
+            options: [
+                { text: '致電:6857 0399', nextId: 9 },
+                { text: '致電:6681 8844', nextId: 9101 },
+                { text: '致電:6681 9634', nextId: 9101 },
+                { text: '致電:6616 6185', nextId: 9101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 9,
+            text: '她接通電話了，從中聽到一隻狗叫聲，施婷考考你牠叫什麼？',
+            options: [
+                { text: 'MICKEY MOUSE', nextId: 9101 },
+                { text: 'LUCKY', nextId: 10 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 10,
+            text: '她說你很聰明，於是再考考你是不是真的聰明，考一下你她姑媽叫什麼？',
+            options: [
+                { text: '施高兒', nextId: 9101 },
+                { text: '施育兒', nextId:  11 },
+                { text: '施肓兒', nextId: 9101 },
+                { text: '施盲兒', nextId: 9101 },
+                { text: '施CHLOE', nextId: 9101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 11,
+            text: '施婷累了想睡覺，你會用什麼句式去終結對話？',
+            options: [
+                { text: '晚安,施婷同學', nextId: 9104 },
+                { text: '剛好我也累了，晚安', nextId: 9101 },
+                { text: '用不用我給你講故事？', nextId: 9103 },
+                { text: '哈哈，很有趣的一晚，希望下次有機會再聊^_^！', nextId: 12 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 12,
+            text: '下一天，上學途中見到了施婷，並且見到她的M巾從書包中掉出來，你會怎麼做？',
+            options: [
+                { text: '幫她撿起來，還給她', nextId: 9102 },
+                { text: '撿起來，交給她的朋友，讓她朋友還給她', nextId: 9102 },
+                { text: '放在自己袋裡，等到沒人時，再稍稍地放回她書包', nextId: 13 },
+                { text: '假裝沒看見', nextId: 9104 },
+                { text: '拿去樓下前台遺失站', nextId: 9102 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 13,
+            text: '回到學校，施婷沒說話且苦惱中，我們要怎麼做？',
+            options: [
+                { text: '走過去問，我有什麼可以幫到你嗎？', nextId: 14 },
+                { text: '過去安慰一下她，你還好嗎？', nextId: 9104 },
+                { text: '不打擾她，靜靜一人心情自然好', nextId: 9104 },
+                { text: '給她一點零食，讓她心情好點', nextId: 9101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 14,
+            text: '施婷很高興你願意幫她解決問題，開始問你有沒有見過她的筆？然後你回答："噢！是不是那支"⋯⋯',
+            options: [
+                { text: '斑馬筆(ZEBRA)', nextId: 15 },
+                { text: '三梭筆(UNI)', nextId: 9101 },
+                { text: '百樂(PILOT)', nextId: 9101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 15,
+            text: '你答對了施婷很高興，問你在哪裡看到？',
+            options: [
+                { text: '廁所', nextId: 9101 },
+                { text: '電腦室', nextId: 9101 },
+                { text: '高三1', nextId: 16 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 16,
+            text: '施婷就高興地去找她的筆，此時你要做什麼？',
+            options: [
+                { text: '回到自己坐位', nextId: 9101 },
+                { text: '偷偷放回她的M巾在書包', nextId: 17 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 17,
+            text: '上課了，施婷生氣地回到自己的坐位，并且向你罵了一句："死騙子，跟本沒有。"再回到自己坐位。為了放回施婷的物品去她的書包而欺騙了她的你，怎麼讓她不要再生氣？',
+            options: [
+                { text: '拿自己筆袋中的斑馬筆給她', nextId: 9102 },
+                { text: '我想我應該記錯位置了，不好意思', nextId: 18 },
+                { text: '小事而己，讓我來幫你找吧', nextId: 9101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 18,
+            text: '"那算了，你也不是想騙我的，才一支筆而已沒事了。"繼續陷入絕境之中⋯⋯接下來你要怎麼做？',
+            options: [
+                { text: '只好那樣，當什麼事也沒發生', nextId: 9101 },
+                { text: '"是的呢，一支筆而已，不見了也沒什麼。"', nextId: 9101 },
+                { text: '拿自己筆袋中的筆，假裝找到了她的筆', nextId: 19 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 19,
+            text: '"啊，你找到了我的筆！謝謝你！！"',
+            options: [
+                { text: '不客氣呢', nextId: 9104 },
+                { text: '希望下次有機會再幫到你', nextId: 20 },
+                { text: '小事而已^ ^！', nextId: 9104 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 20,
+            text: '第三天了，是時候打扮一下自己，什麼樣子才是施婷喜歡的呢⋯⋯',
+            options: [
+                { text: '二八側背，美度造型', nextId: 21 },
+                { text: '中分紋理，中國熊貓', nextId: 9104 },
+                { text: '碎蓋劉海，韓國歐巴', nextId: 9104 },
+                { text: '羊毛卷卷，可可愛愛', nextId: 9104 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 21,
+            text: '回學校途中，進入了一間便利店買飲品，而且看見了買兩支可以打折，這樣可以順便送一支給施婷，施婷喜歡喝⋯⋯',
+            options: [
+                { text: '液態水', nextId: 9104 },
+                { text: '黑咖啡', nextId: 9104 },
+                { text: '白豆漿', nextId: 9104 },
+                { text: '椰汁水', nextId: 22 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 22,
+            text: '回到學校施婷見到了你的髮型有少少臉紅，此時再送一支飲料給她就更加分，要用什麼方法去送給施婷？',
+            options: [
+                { text: '一聲不出，把飲品放到她的桌子上就走',nextId: 9101 },
+                { text: '這是我看見買兩支有打折的，順便買送一支給你吧',nextId: 9101 },
+                { text: '平常看見你的狀態不太好，讓你提起精神！',nextId: 8101 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 9101,
+            text: '攻略失敗',
+            options: [
+                { text: '從頭開始', nextId: 1 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 9102,
+            text: '你讓她尷尬了,攻略失敗',
+            options: [
+                { text: '從頭開始', nextId: 1 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 9103,
+            text: '變態!攻略失敗',
+            options: [
+                { text: '從頭開始', nextId: 1 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 9104,
+            text: '有更好的方法...攻略失敗',
+            options: [
+                { text: '從頭開始', nextId: 1 },
+                { text: '回到上一步', nextId: -1 }
+            ]
+        },
+        {
+            id: 8101,
+            text: '攻略成功！',
+            options: [
+                { text: '從頭開始', nextId: 1 }
+            ]
+        },
+    ];
+
+    // 歷史堆棧
+    let historyStack = [];
+
+    // 初始化遊戲
+    function startGame() {
+      historyStack = []; // 清空歷史堆棧
+      showScene(1);
+    }
+ // 音效播放函數
+     // 音效播放函數
+function playSound() {
+  var soundEffect = new Audio('bo.mp3'); // 替換成你的新音效文件路徑
+  soundEffect.play();
+    }
+    // 顯示場景
+    function showScene(sceneId) {
+      const scene = gameData.find(s => s.id === sceneId);
+      const gameContainer = document.getElementById('game');
+      gameContainer.innerHTML = `<p>${scene.text}</p >` +
+        scene.options.map(option =>
+          `<div class="option" onclick="handleChoice(${option.nextId}, ${sceneId})">${option.text}</div>`
+        ).join('');
+
+     // 為所有選項添加懸浮事件監聽器
+           addHoverSound();
+    }
+
+    // 處理選擇
+    function handleChoice(nextId, currentId) {
+      if (nextId === -1) {
+        goBack();
+      } else {
+        if (currentId !== undefined) {
+          historyStack.push(currentId); // 在這裡記錄每次的選擇
+        }
+        showScene(nextId);
+      }
+    }
+
+    // 回到上一個選項
+    function goBack() {
+      if (historyStack.length > 0) {
+        const previousId = historyStack.pop(); // 獲取上一個選項的場景id
+        showScene(previousId);
+      } else {
+        console.log("已經是第一步了，無法再回退。");
+      }
+    }
+    
+    function addHoverSound() {
+  var options = document.getElementsByClassName('option');
+  for (var i = 0; i < options.length; i++) {
+    options[i].addEventListener('mouseover', playSound);
+  }
+}
+
+    startGame();
+  </script>
+</body>
+</html>
